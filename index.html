@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="스마트폰 카메라로 바코드와 QR코드를 빠르게 인식하는 스캐너 앱" />
+  <meta name="theme-color" content="#0f0f1a" />
+  <title>BarScan — 바코드 스캐너</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== SPLASH SCREEN ===== -->
+  <div id="splash" class="splash">
+    <div class="splash-logo">
+      <div class="splash-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <rect x="4" y="4" width="16" height="4" fill="white"/>
+          <rect x="4" y="4" width="4" height="16" fill="white"/>
+          <rect x="36" y="4" width="16" height="4" fill="white"/>
+          <rect x="48" y="4" width="4" height="16" fill="white"/>
+          <rect x="4" y="48" width="16" height="4" fill="white"/>
+          <rect x="4" y="36" width="4" height="16" fill="white"/>
+          <rect x="36" y="48" width="16" height="4" fill="white"/>
+          <rect x="48" y="36" width="4" height="16" fill="white"/>
+          <rect x="12" y="14" width="4" height="20" fill="white"/>
+          <rect x="20" y="14" width="2" height="20" fill="white"/>
+          <rect x="26" y="14" width="6" height="20" fill="white"/>
+          <rect x="36" y="14" width="2" height="20" fill="white"/>
+          <rect x="42" y="14" width="4" height="20" fill="white"/>
+        </svg>
+      </div>
+      <h1 class="splash-title">BarScan</h1>
+      <p class="splash-sub">스마트 바코드 스캐너</p>
+    </div>
+    <div class="splash-loader">
+      <div class="loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN APP ===== -->
+  <div id="app" class="app hidden">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="header-brand">
+          <svg class="brand-icon" width="24" height="24" viewBox="0 0 56 56" fill="none">
+            <rect x="4" y="4" width="16" height="4" fill="currentColor"/>
+            <rect x="4" y="4" width="4" height="16" fill="currentColor"/>
+            <rect x="36" y="4" width="16" height="4" fill="currentColor"/>
+            <rect x="48" y="4" width="4" height="16" fill="currentColor"/>
+            <rect x="4" y="48" width="16" height="4" fill="currentColor"/>
+            <rect x="4" y="36" width="4" height="16" fill="currentColor"/>
+            <rect x="36" y="48" width="16" height="4" fill="currentColor"/>
+            <rect x="48" y="36" width="4" height="16" fill="currentColor"/>
+            <rect x="12" y="14" width="4" height="20" fill="currentColor"/>
+            <rect x="20" y="14" width="2" height="20" fill="currentColor"/>
+            <rect x="26" y="14" width="6" height="20" fill="currentColor"/>
+            <rect x="36" y="14" width="2" height="20" fill="currentColor"/>
+            <rect x="42" y="14" width="4" height="20" fill="currentColor"/>
+          </svg>
+          <span>BarScan</span>
+        </div>
+        <div class="header-actions">
+          <button id="btn-torch" class="icon-btn" title="플래시" aria-label="플래시 토글" style="display:none">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </button>
+          <button id="btn-flip" class="icon-btn" title="카메라 전환" aria-label="카메라 전환">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 4v6h6"/><path d="M23 20v-6h-6"/>
+              <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"/>
+            </svg>
+          </button>
+          <button id="btn-history" class="icon-btn" title="스캔 기록" aria-label="스캔 기록">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="scanner" id="tab-scanner">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/><path d="M12 8v8"/>
+        </svg>
+        스캐너
+      </button>
+      <button class="tab-btn" data-tab="history" id="tab-history">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+        </svg>
+        기록
+        <span id="history-badge" class="badge hidden">0</span>
+      </button>
+    </nav>
+
+    <!-- ===== SCANNER TAB ===== -->
+    <section id="tab-content-scanner" class="tab-content active">
+
+      <!-- Camera Viewport -->
+      <div class="camera-wrap">
+        <video id="video" class="camera-video" autoplay playsinline muted></video>
+        <canvas id="canvas" class="camera-canvas hidden"></canvas>
+
+        <!-- Overlay -->
+        <div class="scan-overlay">
+          <div class="scan-corner top-left"></div>
+          <div class="scan-corner top-right"></div>
+          <div class="scan-corner bottom-left"></div>
+          <div class="scan-corner bottom-right"></div>
+          <div class="scan-line" id="scan-line"></div>
+        </div>
+
+        <!-- Status Badge -->
+        <div class="cam-status" id="cam-status">
+          <span class="status-dot scanning"></span>
+          <span id="cam-status-text">스캔 중...</span>
+        </div>
+
+        <!-- Format Badge -->
+        <div class="format-badge hidden" id="format-badge"></div>
+      </div>
+
+      <!-- Permission / Error State -->
+      <div id="permission-state" class="permission-state hidden">
+        <div class="perm-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </div>
+        <h2 id="perm-title">카메라 권한 필요</h2>
+        <p id="perm-desc">바코드를 스캔하려면 카메라 접근 권한이 필요합니다.<br/>브라우저의 설정에서 카메라를 허용해주세요.</p>
+        <button id="btn-retry" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-5.41"/>
+          </svg>
+          다시 시도
+        </button>
+      </div>
+
+      <!-- Result Panel -->
+      <div id="result-panel" class="result-panel hidden">
+        <div class="result-header">
+          <div class="result-success-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <div>
+            <p class="result-label">인식 완료!</p>
+            <p class="result-format" id="result-format-label">--</p>
+          </div>
+          <button id="btn-close-result" class="close-btn" aria-label="닫기">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="result-value-wrap">
+          <p class="result-value" id="result-value">--</p>
+        </div>
+        <div class="result-actions">
+          <button id="btn-copy" class="result-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            복사
+          </button>
+          <button id="btn-open-link" class="result-btn" style="display:none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            열기
+          </button>
+          <button id="btn-share" class="result-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+            공유
+          </button>
+          <button id="btn-scan-again" class="result-btn result-btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            다시 스캔
+          </button>
+        </div>
+      </div>
+
+      <!-- Info Bar -->
+      <div class="info-bar">
+        <div class="info-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>QR코드, 바코드 모두 인식 가능</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== HISTORY TAB ===== -->
+    <section id="tab-content-history" class="tab-content hidden">
+      <div class="history-header">
+        <h2 class="history-title">스캔 기록</h2>
+        <button id="btn-clear-history" class="clear-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6"/><path d="M14 11v6"/>
+          </svg>
+          전체 삭제
+        </button>
+      </div>
+      <div id="history-list" class="history-list">
+        <!-- Items injected by JS -->
+      </div>
+      <div id="history-empty" class="history-empty hidden">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+          </svg>
+        </div>
+        <p class="empty-title">스캔 기록이 없습니다</p>
+        <p class="empty-sub">바코드를 스캔하면 여기에 기록됩니다</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <!-- ZXing Library (supports QR + all major barcode formats) -->
+  <script src="https://unpkg.com/@zxing/library@0.20.0/umd/index.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
