@@ -243,7 +243,9 @@
   <!-- ===== TOAST ===== -->
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
-  <!-- ZXing Library (supports QR + all major barcode formats) -->
+  <!-- Quagga2: 1D 바코드 전용 (EAN, Code128, UPC 등) -->
+  <script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
+  <!-- ZXing: QR코드 / 2D 바코드 전용 -->
   <script src="https://unpkg.com/@zxing/library@0.20.0/umd/index.min.js"></script>
   <script src="app.js"></script>
 </body>

@@ -86,7 +86,7 @@ body {
 
 .splash-title {
   font-size: 2.2rem; font-weight: 800;
-  background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
 }
 .splash-sub { font-size: 0.9rem; color: var(--text-secondary); font-weight: 400; }
@@ -575,4 +575,17 @@ body {
    ============================================================ */
 @media (max-height: 600px) {
   .camera-wrap { max-height: 220px; }
+}
+
+/* ============================================================
+   Quagga2 자동 생성 캔버스 — 레이아웃 영향 없도록 처리
+   ============================================================ */
+.camera-wrap canvas.drawingBuffer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+  opacity: 0;          /* 디버그 시 0.4로 변경하면 인식 영역 시각화 가능 */
+  z-index: 1;
 }
